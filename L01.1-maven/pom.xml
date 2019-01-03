@@ -14,10 +14,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <com.google.guava.version>23.0</com.google.guava.version>
+        <entrypoint>com.ohuzenko.l01_1.Main</entrypoint>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -38,7 +40,7 @@
                    <configuration>
                        <archive>
                            <manifest>
-                               <mainClass>com.ohuzenko.l01_1.Main</mainClass>
+                               <mainClass>${entrypoint}</mainClass>
                            </manifest>
                        </archive>
                    </configuration>
@@ -63,12 +65,35 @@
                        </descriptorRefs>
                        <archive>
                            <manifest>
-                               <mainClass>com.ohuzenko.l01_1.Main</mainClass>
+                               <mainClass>${entrypoint}</mainClass>
                            </manifest>
                        </archive>
                    </configuration>
                </plugin>
-
+               <plugin>
+                   <groupId>com.github.wvengen</groupId>
+                   <artifactId>proguard-maven-plugin</artifactId>
+                   <executions>
+                       <execution>
+                           <phase>package</phase>
+                           <goals><goal>proguard</goal></goals>
+                       </execution>
+                   </executions>
+                   <configuration>
+                       <obfuscate>true</obfuscate>
+                       <options>
+                           <option>-keep public class ${entrypoint}</option>
+                       </options>
+                       <injar>${project.name}.jar</injar>
+                       <outjar>${project.name}-small.jar</outjar>
+                       <outputDirectory>${project.build.directory}</outputDirectory>
+                       <proguardInclude>${basedir}/proguard.conf</proguardInclude>
+                       <libs>
+                           <lib>${java.home}/lib/rt.jar</lib>
+                           <lib>${java.home}/lib/jsse.jar</lib>
+                       </libs>
+                   </configuration>
+               </plugin>
            </plugins>
        </build>
 </project>
