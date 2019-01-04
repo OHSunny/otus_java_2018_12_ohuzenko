@@ -73,6 +73,7 @@
                <plugin>
                    <groupId>com.github.wvengen</groupId>
                    <artifactId>proguard-maven-plugin</artifactId>
+                   <version>2.0.14</version>
                    <executions>
                        <execution>
                            <phase>package</phase>
@@ -82,9 +83,12 @@
                    <configuration>
                        <obfuscate>true</obfuscate>
                        <options>
-                           <option>-keep public class ${entrypoint}</option>
+                           <option>-keepclasseswithmembers public class ${entrypoint} {public static void main(java.lang.String[]); }
+                           </option>
+                           <option>-dontnote "com.google.**, javax.**, org.codehaus.**"</option>
+                           <option>-dontwarn "javax.lang.**, com.google.common.**" </option>>
                        </options>
-                       <injar>${project.name}.jar</injar>
+                       <injar>${project.name}-jar-with-dependencies.jar</injar>
                        <outjar>${project.name}-small.jar</outjar>
                        <outputDirectory>${project.build.directory}</outputDirectory>
                        <proguardInclude>${basedir}/proguard.conf</proguardInclude>
