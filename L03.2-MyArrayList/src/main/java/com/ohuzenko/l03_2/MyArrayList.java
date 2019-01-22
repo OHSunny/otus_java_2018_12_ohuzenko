@@ -57,9 +57,9 @@ public class MyArrayList<T> implements List<T> {
 
     public <T> T[] toArray(T[] a) {
 
-        if (a.length < size)
-            // Make a new array of a's runtime type, but my contents:
+        if (a.length < size) {
             return (T[]) Arrays.copyOf(array, size, a.getClass());
+        }
         System.arraycopy(array, 0, a, 0, size);
         if (a.length > size)
             a[size] = null;
