@@ -146,7 +146,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public void clear() {
-        size = EMPTY_ARRAY_INDEX;
+        initArray(capacity);
     }
 
     public T get(int index) throws IndexOutOfBoundsException {
@@ -214,6 +214,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public int lastIndexOf(Object o) {
+
         if (o == null) {
             for (int i = size()-1; i >= 0; i--)
                 if (array[i] == null)
@@ -239,13 +240,12 @@ public class MyArrayList<T> implements List<T> {
         return  Arrays.asList((T[])array).subList(fromIndex, toIndex);
     }
 
-    //do not want to spoil toString function, so this one is only to demonstrate the list state
-    public void printMe(String eventDescription) {
-        System.out.println(eventDescription + "inner array state: ");
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
         for(int i = 0; i < size(); i++) {
-            System.out.print(array[i] + " ");
+            str.append(array[i] + " ");
         }
-        System.out.println("\n-----------------------");
-
+        return str.toString();
     }
 }
